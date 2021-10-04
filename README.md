@@ -1,4 +1,4 @@
-**# Laravel-Training
+# Laravel-Training
 Laravel Project
 
 # [DDEV] Initial project setup
