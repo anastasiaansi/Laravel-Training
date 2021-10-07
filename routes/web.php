@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+//lesson 1
 Route::get('/hello/{user}', function ($user) {
     return 'Hello World, ' . $user;
 });
