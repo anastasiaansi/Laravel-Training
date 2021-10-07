@@ -16,13 +16,21 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-//lesson 1
+//lesson 1 Begin
+//приветствиe
 Route::get('/hello/{user}', function ($user) {
     return 'Hello World, ' . $user;
 });
+//информация
+Route::get('/about', function () {
+    return 'here is project description';
+});
+//вывод нескольких новостей
 Route::get('/news', function () {
     return 'here is our news section';
 });
+//вывод одной новости
 Route::get('/news/{id}', function ($id) {
     return 'here is detail about News ' . $id;
 });
+//lesson 1 End
