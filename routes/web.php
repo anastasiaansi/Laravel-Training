@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use \App\Http\Controllers\Admin\NewsController as AdminNewsController;
+use \App\Http\Controllers\NewsController;
+use \App\Http\Controllers\Admin\IndexController;
+use \App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,16 +16,17 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', [HomeController::class, 'index']);
+Route::prefix('/test')->name('test.')->group(function () {
+    Route::get('/test1', [IndexController::class, 'test1'])->name('test1');
+    Route::get('/test2', [IndexController::class, 'test2'])->name('test2');
 });
-Route::get('/hello/{user}', function ($user) {
-    return 'Hello World, ' . $user;
+Route::prefix('/admin')->name('admin.')->group(function () {
+    Route::get('/', [AdminNewsController::class, 'index'])->name('index');
+    Route::get('/create', [AdminNewsController::class, 'create'])->name('create');
 });
-Route::get('/news', function () {
-    return 'here is our news section';
-});
-Route::get('/news/{id}', function ($id) {
-    return 'here is detail about News ' . $id;
+Route::prefix('/news')->name('news.')->group(function () {
+    Route::get('/', [NewsController::class, 'index'])->name('index');
+    Route::get('/{id}', [NewsController::class, 'show'])->name('show');
+    Route::get('/category/{id}', [NewsController::class, 'category'])->name('category');
 });
