@@ -31,8 +31,8 @@
                                 <a href="news/{{$news->id}}">{{$news->title}}</a>
                                 <p>{{$news->short_description}}</p>
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <small class="text-muted">Author: {{$news->author_id}}</small>
-                                    <small class="text-muted">Categorry: {{$news->category_id}}</small>
+                                    <small class="text-muted col-4">Author: {{$news->author->first_name}} {{$news->author->name}}</small>
+                                    <small class="text-muted">Categorry: {{$news->category->name}}</small>
                                 </div>
                             </div>
                         </div>

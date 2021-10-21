@@ -34,8 +34,8 @@ Route::prefix('/admin')->name('admin.')->group(function () {
 Route::prefix('/news')->name('news.')->group(function () {
     Route::get('/', [NewsController::class, 'index'])->name('index');
     Route::get('/{id}', [NewsController::class, 'show'])->name('show');
-    Route::get('/category/{id}', [NewsController::class, 'category'])->name('category');
 });
+Route::get('/category/{id}', [NewsController::class, 'category'])->name('category');
 Route::prefix('/account')->name('account.')->group(function () {
     Route::get('/feedback', [AccountController::class, 'feedback'])->name('feedback');
     Route::post('/feedback/store', [AccountController::class, 'store'])->name('feedback.store');

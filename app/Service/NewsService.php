@@ -9,15 +9,17 @@ use Illuminate\Database\Eloquent\Collection;
 class NewsService
 {
 
-    public function queryShowNews(int $id): News
+    public function queryShowNews(int $id)
     {
-        return QueryBuilder::for(News::class)
+        $query =QueryBuilder::for(News::class)
+            ->with(['author','category'])
             ->where('id', '=', $id)->firstOrFail();
+        return $query;
     }
 
     public function queryCategoryNews(int $id)
     {
-        $query = QueryBuilder::for(News::class)
+        $query = QueryBuilder::for(News::class)->with(['author','category'])
             ->where('category_id', '=', $id);
         return $query->get();
     }
