@@ -30,6 +30,7 @@
             </div>
             <h2>Hier is Admin Settings</h2>
             <div class="table-responsive">
+
             </div>
         </main>
     </div>
