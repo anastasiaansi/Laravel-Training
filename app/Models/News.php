@@ -16,12 +16,20 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $image
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Categorie[] $categorie
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Category[] $categorie
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Author[] $author
  * */
 class News extends Model
 {
     use HasFactory;
-    protected $table = 'news';
 
+//    protected $guarded = [
+//        'id'
+//    ];
+
+    protected $fillable = [
+        'title',
+        'short_description',
+        'description'
+    ];
 }

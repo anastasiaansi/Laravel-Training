@@ -57,6 +57,9 @@
                     </tbody>
                 </table>
             </div>
+            <div>
+                {{ $newsList->links() }}
+            </div>
         </main>
     </div>
 </div>

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Categorie;
+use App\Models\Category;
 use App\Repositories\News\NewsRepository;
 use App\Models\News;
 use App\Services\NewsService;
@@ -19,7 +19,7 @@ class NewsController extends Controller
     public function index(): string
     {
         $news = News::all();
-        $categories =Categorie::all();
+        $categories =Category::all();
         return view('news.index', [
             'newsList' => $news,
             'categories' => $categories

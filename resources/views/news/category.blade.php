@@ -13,8 +13,9 @@
                     <p>{{$news->short_description}}</p>
                     <div>Author: {{$news->author_id}}</div>
                     <div>Categorry: {{$news->category_id}}</div>
+
+                @endforeach
             </div>
-            @endforeach
         </div>
     </section>
 </main>

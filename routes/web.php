@@ -29,6 +29,7 @@ Route::prefix('/admin')->name('admin.')->group(function () {
     Route::get('/news', [AdminNewsController::class, 'index'])->name('news.index');
     Route::get('/categories', [CategoryController::class, 'index'])->name('cat.index');
     Route::get('/create', [AdminNewsController::class, 'create'])->name('news.create');
+    Route::get('/edit', [AdminNewsController::class, 'edit'])->name('news.edit');
     Route::post('/store', [AdminNewsController::class, 'store'])->name('news.store');
 });
 Route::prefix('/news')->name('news.')->group(function () {
@@ -41,4 +42,9 @@ Route::prefix('/account')->name('account.')->group(function () {
     Route::post('/feedback/store', [AccountController::class, 'store'])->name('feedback.store');
     Route::get('/order', [AccountController::class, 'order'])->name('order');
     Route::post('/order/save', [AccountController::class, 'ordersave'])->name('order.save');
+});
+Route::get('collection', function (){
+    $names =['Ann', 'Bet', 'Luck', 'Ben', 'Bob', 'Ia', 'Yan'];
+    $collection =collect($names);
+    dd($collection);
 });

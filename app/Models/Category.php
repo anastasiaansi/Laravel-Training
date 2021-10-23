@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * */
-class Categorie extends Model
+class Category extends Model
 {
     use HasFactory;
 }

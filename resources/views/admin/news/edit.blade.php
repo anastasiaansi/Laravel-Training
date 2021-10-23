@@ -7,8 +7,9 @@
         <div class="row py-lg-5">
             <div class="col-lg-6 col-md-8 mx-auto">
                 <h1>Add news</h1>
-                <form method="post" action="{{route('admin.news.store')}}">
+                <form method="post" action="{{route('admin.news.update', ['news' => $news]}}">
                     @csrf
+                    @method('put')
                     <div>
                         <label for="title">Title</label>
                         <input id="title" name="title" type="text" class="form-control" value="{{old('title')}}">
