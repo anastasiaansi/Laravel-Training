@@ -22,11 +22,21 @@
                         <textarea id="description" name="description" class="form-control">{{old('description')}}</textarea>
                     </div>
                     <div>
+                        <label for="description">Description</label>
+                        <textarea id="description" name="description" class="form-control">{{old('description')}}</textarea>
+                    </div>
+                    <div>
                         <label for=" author">Author</label>
-                        <input id="author" name="author" type="text" class="form-control" value="{{old('author')}}">
+                        <input type="text" class="form-control" name="author" id="author" value="{{ old('author') }}">
                         <label for=" category">category</label>
-                        <input id="category" name="category" type="text" class="form-control"
-                               value="{{old('category')}}">
+                        <select class="form-control" id="category" name="category">
+                            <option>...</option>
+                            @foreach($categories as $category)
+                                <option value="{{ $category->id }}" @if(old('category_id') === $category->id) selected @endif>
+                                    {{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
                     <br/>
                     <div class=" form-group row">

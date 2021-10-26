@@ -30,6 +30,12 @@
             </div>
             <h2>Hier is Admin Settings</h2>
             <div class="table-responsive">
+                <a href="{{ route('admin.feedback.index') }}" type="button" class="btn btn-sm">
+                    Feedback Liste
+                </a>
+                <a href="{{ route('admin.order.index') }}" type="button" class="btn btn-sm">
+                    Order Liste
+                </a>
 
             </div>
         </main>

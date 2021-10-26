@@ -7,7 +7,7 @@
     <div class="row">
         <main class="col-6">
             @include('inc.message')
-            <form action="{{ route('account.feedback.store') }}" method="post">
+            <form action="{{ route('admin.feedback.store') }}" method="post">
                 @csrf
                 <h1 class="h3 mb-3 fw-normal">Please get you Feedback</h1>
 

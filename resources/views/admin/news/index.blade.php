@@ -30,6 +30,7 @@
             </div>
             <h2>Section title</h2>
             <div class="table-responsive">
+                @include('inc.message')
                 <table class="table table-striped table-sm">
                     <thead>
                     <tr>
@@ -41,6 +42,7 @@
                         <th scope="col">Status</th>
                         <th scope="col">View</th>
                         <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -53,11 +55,21 @@
                             <td>{{$news->category->name}}</td>
                             <td>{{$news->status}}</td>
                             <td><a href="{{ route('news.show', ['id'=>$news->id]) }}">view</a></td>
-                            <td><a href="#">edit</a></td>
+                            <td><a href="{{ route('admin.news.edit', ['news'=>$news->id]) }}">edit</a></td>
+                            <td>
+                                <form method="post" action="{{route('admin.news.destroy',$news->id)}}">
+                                    @method('delete')
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
+            </div>
+            <div>
+                {{ $newsList->links() }}
             </div>
         </main>
     </div>

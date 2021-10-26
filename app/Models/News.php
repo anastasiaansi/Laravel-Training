@@ -24,7 +24,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class News extends Model
 {
     use HasFactory;
-    protected $table = 'news';
+    //    protected $guarded = [
+//        'id'
+//    ];
+
+    protected $fillable = [
+        'title',
+        'short_description',
+        'description',
+        'status',
+        'author'
+    ];
 
     /**
      * One-To-Many: One category may belong to one news.
@@ -40,5 +50,6 @@ class News extends Model
     {
         return $this->belongsTo(Author::class);
     }
+
 
 }
