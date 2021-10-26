@@ -4,29 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-
 /**
- * App\Models\Category.
+ * App\Models\Feedback.
  *
  * @property int $id
  * @property string $name
- * @property string $description
+ * @property string $feedback
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * */
-class Category extends Model
+class Feedback extends Model
 {
     use HasFactory;
 
-    protected $table = "categories";
+    protected $table = "feedbacks";
 
     protected $fillable = [
-        'name', 'description'
+        'name', 'feedback'
     ];
-
-    public function news(): HasMany
-    {
-        return $this->hasMany(News::class, 'category_id', 'id');
-    }
 }

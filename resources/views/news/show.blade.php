@@ -11,7 +11,8 @@
                     {{$news->title}}
                 </h1>
                 <p>{{$news->description}}</p>
-                <div>{{$news->author}}</div>
+                <div>Auttor: {{$news->author->first_name}} {{$news->author->name}}</div>
+                <div>Categorry: {{$news->category->name}}</div>
                 <a href="{{ route('news.index') }}">Back</a>
             </div>
         </div>

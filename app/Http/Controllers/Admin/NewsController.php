@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Author;
 use App\Models\Category;
 use App\Models\News;
 use Illuminate\Http\RedirectResponse;
@@ -44,16 +45,19 @@ class NewsController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $news = News::create();
         $request->validate([
             'title' => ['required', 'string']
         ]);
+        $news = News::create(
+            $request->only(['category_id', 'title', 'short_description','description', 'status', 'author'])
+        );
+
         if ($news) {
             return redirect()->route('admin.news.index')
-                ->with('success', __('messages.admin.news.create.success'));
+                ->with('success','create is success');
         }
 
-        return back()->withInput()->with('error', __('messages.admin.news.create.fail'));
+        return back()->with('error', 'create is fail');
     }
 
     /**
@@ -76,9 +80,11 @@ class NewsController extends Controller
     public function edit(News $news)
     {
         $categories = Category::all();
+        $authors = Author::all();
         return view('admin.news.edit', [
             'news' => $news,
-            'categories' => $categories
+            'categories' => $categories,
+            'authors' => $authors
         ]);
     }
 
@@ -89,19 +95,32 @@ class NewsController extends Controller
      * @param int $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, News $news)
     {
-        //
+        $news = $news->fill(
+            $request->only(['category_id', 'title', 'short_description', 'description', 'status', 'author_id'])
+        )->save();
+
+        if($news) {
+            return redirect()
+                ->route('admin.news.index')
+                ->with('success', 'News is saved');
+        }
+
+        return back()->with('error', 'News is fail');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param News $news
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(News $news)
     {
-        //
+        $news->delete();
+
+        return redirect()->route('admin.news.index')
+            ->withSuccess(__('News delete successfully.'));
     }
 }

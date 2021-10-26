@@ -15,16 +15,21 @@ class CreateNewsTable extends Migration
     {
         Schema::create('news', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->foreignId('category_id')
+                ->constrained('categories')
+                ->cascadeOnDelete();
+            $table->foreignId('author_id')
+                ->constrained('authors')
+                ->cascadeOnDelete();
+            $table->string('title', 255);
             $table->text('short_description');
             $table->text('description');
-            $table->bigInteger('category_id')->unsigned();
-            $table->bigInteger('author_id')->unsigned();
+            $table->enum('status', ['PUBLISHED', 'DRAFT', 'BLOCKED'])->default('PUBLISHED');
             $table->string('slug')->unique();
-            $table->string('image')->nullable();
+            $table->string('image', 191)->nullable();
             $table->timestamps();
 
-//            $table->foreign('category_id')->references('id')->on('categories')->onDelete('CASCADE');
+            $table->index('status');
         });
     }
 

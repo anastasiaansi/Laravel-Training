@@ -6,7 +6,8 @@ use \App\Http\Controllers\NewsController;
 use \App\Http\Controllers\Admin\IndexController;
 use \App\Http\Controllers\AdminController;
 use \App\Http\Controllers\HomeController;
-use \App\Http\Controllers\AccountController;
+use \App\Http\Controllers\Admin\FeedbackController;
+use \App\Http\Controllers\Admin\OrderController;
 use \App\Http\Controllers\Admin\CategoryController;
 
 /*
@@ -26,23 +27,18 @@ Route::prefix('/test')->name('test.')->group(function () {
 });
 Route::prefix('/admin')->name('admin.')->group(function () {
     Route::get('/', AdminController::class)->name('index');
-    Route::get('/news', [AdminNewsController::class, 'index'])->name('news.index');
-    Route::get('/categories', [CategoryController::class, 'index'])->name('cat.index');
-    Route::get('/create', [AdminNewsController::class, 'create'])->name('news.create');
-    Route::get('/edit', [AdminNewsController::class, 'edit'])->name('news.edit');
-    Route::post('/store', [AdminNewsController::class, 'store'])->name('news.store');
+    Route::resource('/news', AdminNewsController::class);
+    Route::resource('/categories', CategoryController::class);
+
+    Route::resource('/feedback', FeedbackController::class);
+    Route::resource('/order', OrderController::class);
 });
 Route::prefix('/news')->name('news.')->group(function () {
     Route::get('/', [NewsController::class, 'index'])->name('index');
     Route::get('/{id}', [NewsController::class, 'show'])->name('show');
-    Route::get('/category/{id}', [NewsController::class, 'category'])->name('category');
 });
-Route::prefix('/account')->name('account.')->group(function () {
-    Route::get('/feedback', [AccountController::class, 'feedback'])->name('feedback');
-    Route::post('/feedback/store', [AccountController::class, 'store'])->name('feedback.store');
-    Route::get('/order', [AccountController::class, 'order'])->name('order');
-    Route::post('/order/save', [AccountController::class, 'ordersave'])->name('order.save');
-});
+Route::get('/category/{id}', [NewsController::class, 'category'])->name('category');
+
 Route::get('collection', function (){
     $names =['Ann', 'Bet', 'Luck', 'Ben', 'Bob', 'Ia', 'Yan'];
     $collection =collect($names);

@@ -13,7 +13,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::with('news')->paginate(10);
         return view('admin.categories.index', [
             'categories' => $categories
         ]);
@@ -50,9 +50,18 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
 
+        //validation here
+
         $category->name = $request->input('name');
-        $category->name = $request->input('name');
-        return view('admin.categories.index')->with('e');
+        $category->description = $request->input('description');
+
+        if($category->save()) {
+            return redirect()
+                ->route('admin.categories.index')
+                ->with('success', 'category is saved');
+        }
+
+        return back()->with('error', 'categories is not save');
     }
 
     /**
@@ -71,5 +80,18 @@ class CategoryController extends Controller
         }
 
         return back()->withInput()->with('error', 'Not Saved');
+    }
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param Category $category
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Category $category)
+    {
+        $category->delete();
+
+        return redirect()->route('admin.categories.index')
+            ->withSuccess(__('Category delete successfully.'));
     }
 }

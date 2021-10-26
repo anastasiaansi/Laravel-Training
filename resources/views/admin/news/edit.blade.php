@@ -6,34 +6,56 @@
     <section class="py-5 text-left container">
         <div class="row py-lg-5">
             <div class="col-lg-6 col-md-8 mx-auto">
-                <h1>Add news</h1>
-                <form method="post" action="{{route('admin.news.update', ['news' => $news]}}">
+                <h1>Edit news</h1>
+                @if($errors->any())
+                    @foreach($errors->all() as $error)
+                        <div class="alert alert-danger">{{ $error }}</div>
+                    @endforeach
+                @endif
+                <form method="post" action="{{route('admin.news.update', ['news' => $news])}}">
                     @csrf
                     @method('put')
-                    <div>
+                    <div class="form-group">
                         <label for="title">Title</label>
-                        <input id="title" name="title" type="text" class="form-control" value="{{old('title')}}">
+                        <input id="title" name="title" type="text" class="form-control" value="{{ $news->title }}">
                     </div>
-                    <div>
+                    <div class="form-group">
                         <label for="short_description">Short Description</label>
-                        <textarea id="short_description" name="short_description" class="form-control">{{old('short_description')}}</textarea>
+                        <textarea id="short_description" name="short_description"
+                                  class="form-control"> {{ $news->short_description}}</textarea>
                     </div>
-                    <div>
+                    <div class="form-group">
                         <label for="description">Description</label>
-                        <textarea id="description" name="description" class="form-control">{{old('description')}}</textarea>
+                        <textarea id="description" name="description"
+                                  class="form-control">{{ $news->description}}</textarea>
                     </div>
-                    <div>
-                        <label for="description">Description</label>
-                        <textarea id="description" name="description" class="form-control">{{old('description')}}</textarea>
-                    </div>
-                    <div>
+                    <div class="form-group">
                         <label for=" author">Author</label>
-                        <input type="text" class="form-control" name="author" id="author" value="{{ old('author') }}">
-                        <label for=" category">category</label>
+                        <select class="form-control" id="author" name="author_id">
+                            <option>...</option>
+                            @foreach($authors as $author)
+                                <option value="{{ $author->id }}"
+                                        @if($news->author_id === $author->id) selected @endif>
+                                    {{ $author->first_name }} {{ $author->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select class="form-control" name="status" id="status">
+                            <option @if($news->status === 'DRAFT') selected @endif>DRAFT</option>
+                            <option @if($news->status === 'PUBLISHED') selected @endif>PUBLISHED</option>
+                            <option @if($news->status === 'BLOCKED') selected @endif>BLOCKED</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="status">category</label>
                         <select class="form-control" id="category" name="category">
                             <option>...</option>
                             @foreach($categories as $category)
-                                <option value="{{ $category->id }}" @if(old('category_id') === $category->id) selected @endif>
+                                <option value="{{ $category->id }}"
+                                        @if($news->category_id === $category->id) selected @endif>
                                     {{ $category->name }}
                                 </option>
                             @endforeach
@@ -42,7 +64,7 @@
                     <br/>
                     <div class=" form-group row">
                         <div class="offset-4 col-8">
-                            <button name="submit" type="submit" class="btn btn-primary">Add News</button>
+                            <button name="submit" type="submit" class="btn btn-primary">Edit News</button>
                         </div>
                     </div>
                 </form>
