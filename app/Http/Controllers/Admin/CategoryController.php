@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\CreateCategoryRequest;
+use App\Http\Requests\EditCategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -28,6 +30,7 @@ class CategoryController extends Controller
     }
 
     /**
+     *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function create()
@@ -47,15 +50,18 @@ class CategoryController extends Controller
 
     }
 
-    public function update(Request $request, Category $category)
+    /** Update the specified resource in storage.
+    *
+    * @param EditCategoryRequest $request
+    * @param News $news
+    * @return \Illuminate\Http\RedirectResponse
+    */
+    public function update(EditCategoryRequest $request, Category $category)
     {
 
-        //validation here
+        $category = $category->fill($request->validated())->save();
 
-        $category->name = $request->input('name');
-        $category->description = $request->input('description');
-
-        if($category->save()) {
+        if ($category) {
             return redirect()
                 ->route('admin.categories.index')
                 ->with('success', 'category is saved');
@@ -65,22 +71,19 @@ class CategoryController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param CreateCategoryRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request): \Illuminate\Http\RedirectResponse
+    public function store(CreateCategoryRequest $request): \Illuminate\Http\RedirectResponse
     {
-
-        $category = Category::create(
-            $request->only(['name', 'description'])
-        );
-
+        $category = Category::create($request->validated());
         if ($category) {
             return redirect()->route('admin.categories.index')->with('success', 'All save');
         }
 
         return back()->withInput()->with('error', 'Not Saved');
     }
+
     /**
      * Remove the specified resource from storage.
      *

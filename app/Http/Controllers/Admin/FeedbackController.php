@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\CreateFeedbackRequest;
 use App\Models\Feedback;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -32,16 +33,13 @@ class FeedbackController extends Controller
         return view('admin.feedbacks.create');
     }
 
-
-    public function store(Request $request)
+    /**
+     * @param CreateFeedbackRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(CreateFeedbackRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:15',
-            'feedback' => 'required|string'
-        ]);
-        $feedback = Feedback::create(
-            $request->only(['name', 'feedback'])
-        );
+        $feedback = Feedback::create($request->validated());
 
         if ($feedback) {
             Storage::append('info/feedback.txt', $feedback);

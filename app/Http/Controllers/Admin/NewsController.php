@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateNewsRequest;
+use App\Http\Requests\EditNewsRequest;
 use App\Models\Author;
 use App\Models\Category;
 use App\Models\News;
@@ -26,35 +28,30 @@ class NewsController extends Controller
     }
 
     /**
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function create(Request $request)
+    public function create()
     {
         $categories = Category::all();
+        $authors = Author::all();
         return view('admin.news.create', [
-            'categories' => $categories
+            'categories' => $categories,
+            'authors' => $authors
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param CreateNewsRequest $request
      * @return RedirectResponse
      */
-    public function store(Request $request): RedirectResponse
+    public function store(CreateNewsRequest $request): RedirectResponse
     {
-        $request->validate([
-            'title' => ['required', 'string']
-        ]);
-        $news = News::create(
-            $request->only(['category_id', 'title', 'short_description','description', 'status', 'author'])
-        );
-
+        $news = News::create($request->validated());
         if ($news) {
             return redirect()->route('admin.news.index')
-                ->with('success','create is success');
+                ->with('success', 'create is success');
         }
 
         return back()->with('error', 'create is fail');
@@ -91,23 +88,21 @@ class NewsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param int $id
-     * @return Response
+     * @param EditNewsRequest $request
+     * @param News $news
+     * @return RedirectResponse
      */
-    public function update(Request $request, News $news)
+    public function update(EditNewsRequest $request, News $news): RedirectResponse
     {
-        $news = $news->fill(
-            $request->only(['category_id', 'title', 'short_description', 'description', 'status', 'author_id'])
-        )->save();
+        $news = $news->fill($request->validated())->save();
 
-        if($news) {
+        if ($news) {
             return redirect()
                 ->route('admin.news.index')
-                ->with('success', 'News is saved');
+                ->with('success', __('messages.admin.news.success'));
         }
 
-        return back()->with('error', 'News is fail');
+        return back()->with('error', __('messages.admin.news.fail'));
     }
 
     /**

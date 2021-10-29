@@ -7,6 +7,7 @@
         <div class="row py-lg-5">
             <div class="col-lg-6 col-md-8 mx-auto">
                 <h1>Add Category</h1>
+                @include('inc.message')
                 <form method="post" action="{{route('admin.categories.store')}}">
                     @csrf
                     <div class="form-group">

@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $title
  * @property string $short_description
  * @property string $description
- * @property string $slug
  * @property string $image
  * @property string $status
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -33,7 +32,8 @@ class News extends Model
         'short_description',
         'description',
         'status',
-        'author'
+        'category_id',
+        'author_id'
     ];
 
     /**

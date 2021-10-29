@@ -25,7 +25,6 @@ class CreateNewsTable extends Migration
             $table->text('short_description');
             $table->text('description');
             $table->enum('status', ['PUBLISHED', 'DRAFT', 'BLOCKED'])->default('PUBLISHED');
-            $table->string('slug')->unique();
             $table->string('image', 191)->nullable();
             $table->timestamps();
 

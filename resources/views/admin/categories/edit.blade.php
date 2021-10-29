@@ -7,6 +7,7 @@
         <div class="row py-lg-5">
             <div class="col-lg-6 col-md-8 mx-auto">
                 <h1>Edit Category</h1>
+                @include('inc.message')
                 <form method="post" action="{{route('admin.categories.update', ['category'=>$category])}}">
                     @csrf
                     @method('put')

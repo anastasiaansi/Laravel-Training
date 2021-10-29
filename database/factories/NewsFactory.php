@@ -30,7 +30,6 @@ class NewsFactory extends Factory
             'description' => $this->faker->text(600),
             'category_id' => $this->faker->numberBetween(1, 10),
             'author_id' => $this->faker->numberBetween(1, 10),
-            'slug' => Str::slug($title),
         ];
     }
 

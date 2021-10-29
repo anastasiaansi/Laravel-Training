@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\CreateOrderRequest;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -32,18 +33,13 @@ class OrderController extends Controller
         return view('admin.orders.create');
     }
 
-
-    public function store(Request $request)
+    /**
+     * @param CreateOrderRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(CreateOrderRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:15',
-            'phone' => 'required|numeric',
-            'email' => 'required|email',
-            'info' => 'required|string|min:5',
-        ]);
-        $orders= Order::create(
-            $request->only(['name','phone','email', 'info'])
-        );
+        $orders= Order::create($request->validated());
 
         if ($orders) {
             Storage::append('info/order.txt', $orders);
