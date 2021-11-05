@@ -9,6 +9,8 @@ use \App\Http\Controllers\HomeController;
 use \App\Http\Controllers\Admin\FeedbackController;
 use \App\Http\Controllers\Admin\OrderController;
 use \App\Http\Controllers\Admin\CategoryController;
+use \App\Http\Controllers\Admin\UserController;
+use \App\Http\Controllers\Account\IndexController as AccountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,18 +22,22 @@ use \App\Http\Controllers\Admin\CategoryController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', [HomeController::class, 'index']);
-Route::prefix('/test')->name('test.')->group(function () {
-    Route::get('/test1', [IndexController::class, 'test1'])->name('test1');
-    Route::get('/test2', [IndexController::class, 'test2'])->name('test2');
+Route::get('/', function () {
+    return view('welcome');
 });
-Route::prefix('/admin')->name('admin.')->group(function () {
-    Route::get('/', AdminController::class)->name('index');
-    Route::resource('/news', AdminNewsController::class);
-    Route::resource('/categories', CategoryController::class);
 
-    Route::resource('/feedback', FeedbackController::class);
-    Route::resource('/order', OrderController::class);
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/account', AccountController::class)->name('account');
+
+    Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth'], (function () {
+        Route::get('/', AdminController::class)->name('index');
+        Route::resource('/news', AdminNewsController::class);
+        Route::resource('/categories', CategoryController::class);
+        Route::resource('/user', UserController::class);
+
+        Route::resource('/feedback', FeedbackController::class);
+        Route::resource('/order', OrderController::class);
+    }));
 });
 Route::prefix('/news')->name('news.')->group(function () {
     Route::get('/', [NewsController::class, 'index'])->name('index');
@@ -39,8 +45,12 @@ Route::prefix('/news')->name('news.')->group(function () {
 });
 Route::get('/category/{id}', [NewsController::class, 'category'])->name('category');
 
-Route::get('collection', function (){
-    $names =['Ann', 'Bet', 'Luck', 'Ben', 'Bob', 'Ia', 'Yan'];
-    $collection =collect($names);
-    dd($collection);
-});
+//Route::get('collection', function () {
+//    $names = ['Ann', 'Bet', 'Luck', 'Ben', 'Bob', 'Ia', 'Yan'];
+//    $collection = collect($names);
+//    dd($collection);
+//});
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

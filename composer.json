@@ -11,6 +11,7 @@
         "laravel/framework": "^8.54",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
+        "laravel/ui": "^3.3",
         "spatie/data-transfer-object": "^2.8",
         "spatie/laravel-medialibrary": "^9.6",
         "spatie/laravel-permission": "^4.2",
