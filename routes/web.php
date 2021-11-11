@@ -11,6 +11,8 @@ use \App\Http\Controllers\Admin\OrderController;
 use \App\Http\Controllers\Admin\CategoryController;
 use \App\Http\Controllers\Admin\UserController;
 use \App\Http\Controllers\Account\IndexController as AccountController;
+use \App\Http\Controllers\Admin\ParserController;
+use \App\Http\Controllers\SocialController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +39,8 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::resource('/feedback', FeedbackController::class);
         Route::resource('/order', OrderController::class);
+        Route::get('/parser', ParserController::class)
+            ->name('parser');
     }));
 });
 Route::prefix('/news')->name('news.')->group(function () {
@@ -54,3 +58,9 @@ Route::get('/category/{id}', [NewsController::class, 'category'])->name('categor
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::group(['middleware' => 'guest'], function() {
+    Route::get('/gh/link', [SocialController::class, 'link'])
+        ->name('gh.link');
+    Route::get('/gh/callback', [SocialController::class, 'callback'])
+        ->name('gh.callback');
+});
