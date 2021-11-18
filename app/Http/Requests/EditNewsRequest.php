@@ -30,8 +30,8 @@ class EditNewsRequest extends FormRequest
             'status' => ['required', 'string','min:5', 'max:15'],
             'author_id' => ['required', 'string'],
             'category_id' => ['required', 'string'],
-            'image'  => ['sometimes'],
-        ];
+            'image'  => ['nullable'],
+            ];
     }
     public function messages()
     {

@@ -33,7 +33,8 @@ class News extends Model
         'description',
         'status',
         'category_id',
-        'author_id'
+        'author_id',
+        'image'
     ];
 
     /**

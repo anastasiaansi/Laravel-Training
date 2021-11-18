@@ -8,6 +8,8 @@ use App\Http\Requests\EditNewsRequest;
 use App\Models\Author;
 use App\Models\Category;
 use App\Models\News;
+use App\Models\Resources;
+use App\Service\ImageUploadService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -35,6 +37,23 @@ class NewsController extends Controller
         $categories = Category::all();
         $authors = Author::all();
         return view('admin.news.create', [
+            'categories' => $categories,
+            'authors' => $authors
+        ]);
+    }
+
+
+    /**
+     * @param Request $resource
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function add(Request $request, $id)
+    {
+        $resource = Resources::findOrFail( $id);
+        $categories = Category::all();
+        $authors = Author::all();
+        return view('admin.news.add', [
+            'resource' => $resource,
             'categories' => $categories,
             'authors' => $authors
         ]);
@@ -94,7 +113,14 @@ class NewsController extends Controller
      */
     public function update(EditNewsRequest $request, News $news): RedirectResponse
     {
-        $news = $news->fill($request->validated())->save();
+        $validated = $request->validated();
+        if (isset($validated['image']) && !is_null($validated['image'])) {
+            $service = app(ImageUploadService::class);
+            $fileUrl = $service->imageUpload($request->file('image'));
+            $validated['image'] = $fileUrl;
+        }
+
+        $news = $news->fill($validated)->save();
 
         if ($news) {
             return redirect()
