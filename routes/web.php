@@ -5,12 +5,14 @@ use \App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use \App\Http\Controllers\NewsController;
 use \App\Http\Controllers\Admin\IndexController;
 use \App\Http\Controllers\AdminController;
-use \App\Http\Controllers\HomeController;
 use \App\Http\Controllers\Admin\FeedbackController;
 use \App\Http\Controllers\Admin\OrderController;
 use \App\Http\Controllers\Admin\CategoryController;
 use \App\Http\Controllers\Admin\UserController;
 use \App\Http\Controllers\Account\IndexController as AccountController;
+use \App\Http\Controllers\Admin\ParserController;
+use \App\Http\Controllers\SocialController;
+use \App\Http\Controllers\Admin\ResourcesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,11 +34,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth'], (function () {
         Route::get('/', AdminController::class)->name('index');
         Route::resource('/news', AdminNewsController::class);
+        Route::get('/add/news/{id}', [AdminNewsController::class, 'add'])->name('news.add');
         Route::resource('/categories', CategoryController::class);
         Route::resource('/user', UserController::class);
 
         Route::resource('/feedback', FeedbackController::class);
         Route::resource('/order', OrderController::class);
+        Route::get('/parser', ParserController::class)
+            ->name('parser');
+        Route::resource('/resources', ResourcesController::class);
+
     }));
 });
 Route::prefix('/news')->name('news.')->group(function () {
@@ -45,12 +52,17 @@ Route::prefix('/news')->name('news.')->group(function () {
 });
 Route::get('/category/{id}', [NewsController::class, 'category'])->name('category');
 
-//Route::get('collection', function () {
-//    $names = ['Ann', 'Bet', 'Luck', 'Ben', 'Bob', 'Ia', 'Yan'];
-//    $collection = collect($names);
-//    dd($collection);
-//});
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::group(['middleware' => 'guest'], function() {
+    Route::get('/gh/link', [SocialController::class, 'link'])
+        ->name('gh.link');
+    Route::get('/gh/callback', [SocialController::class, 'callback'])
+        ->name('gh.callback');
+});
+
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});

@@ -16,7 +16,7 @@
                         <input id="name" name="name" type="text" class="form-control" value="{{$user->name}}">
                     </div>
                     <div class="form-group">
-                        <label for="description">Email</label>
+                        <label for="email">Email</label>
                         <input id="email" name="email"
                                class="form-control" value="{{$user->email }}"/>
                     </div>

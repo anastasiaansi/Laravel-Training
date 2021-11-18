@@ -19,6 +19,12 @@
                     Categories
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link @if(request()->routeIs('admin.resources.*')) active @endif" href="{{route('admin.resources.index')}}">
+                    <span data-feather="shopping-cart"></span>
+                    Resources
+                </a>
+            </li>
         </ul>
     </div>
 </nav>

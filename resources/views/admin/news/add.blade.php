@@ -12,7 +12,7 @@
                     @csrf
                     <div>
                         <label for="title">Title</label>
-                        <input id="title" name="title" type="text" class="form-control" value="{{old('title')}}">
+                        <input id="title" name="title" type="text" class="form-control" value="{{ $resource->title }}">
                     </div>
                     <div>
                         <label for="short_description">Short Description</label>
@@ -22,7 +22,7 @@
                     <div>
                         <label for="description">Description</label>
                         <textarea id="description" name="description"
-                                  class="form-control">{{old('description')}}</textarea>
+                                  class="form-control">{{$resource->description }}</textarea>
                     </div>
                     <div>
                         <label for="author">Author</label>
